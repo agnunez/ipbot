@@ -6,7 +6,7 @@ import os
 import sys
 import time
 
-debug    = True # Turn into True to print debug info on terminal
+debug    = False # Turn into True to print debug info on terminal
 period   = 10 # cycle period in seconds
 iplist = ('192.168.1.53','192.168.1.20') # Mobile phone permanent lan ip list, can be any number of ip's
 statusnet = dict()
