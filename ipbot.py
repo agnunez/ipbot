@@ -7,8 +7,8 @@ import sys
 import time
 
 debug    = False # Turn into True to print debug info on terminal
-period   = 10 # cycle period in seconds
-iplist = ('192.168.1.53','192.168.1.20') # Mobile phone permanent lan ip list, can be any number of ip's
+period   = 60 # cycle period in seconds
+iplist = ['192.168.1.53','192.168.1.54'] # Mobile phone permanent lan ip list, can be any number of ip's
 statusnet = dict()
 
  
@@ -17,10 +17,12 @@ username = 'myemail@gmail.com'
 password = 'pass'
  
 def sendemail(result):
-    if debug: return
+    if debug: 
+        print "Sendmail simulated in debug mode. Turn debug to False to send real mails"
+        return
     notifier = 'Bot'
     sender = 'home@gmail.com' # this is fake email from field
-    receivers = ['mynormalemail@gmail.com'] #Use one or many email addresses by comma
+    receivers = ['anunez@gmail.com'] #Use one or a list of email addresses separated by comma
     date = datetime.datetime.now().strftime( '%m/%d/%Y %H:%M:%S' )
     header = 'To:' + notifier + '\n' + 'From: ' + sender + '\n' + 'Subject: Bot ' + result +'\n'
     message = header + '\n' + 'date:' + '\n' + date + '\n' + 'Change: ' + result
