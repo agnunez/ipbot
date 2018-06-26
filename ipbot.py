@@ -6,9 +6,9 @@ import os
 import sys
 import time
 
-debug    = False
+debug    = False # Turn into True to print debug info on terminal
 period   = 600
-internet = '192.168.1.37' # Mobile phone 1 permanent lan ip 
+iplist = ('192.168.1.10','192.168.1.20') # Mobile phone permanent lan ip list, can be any number of ip's
  
 #Define Username and Password of sender. I used a new gmail account
 username = 'myemail@gmail.com'
@@ -37,26 +37,26 @@ def sendemail(result):
 def ping():
     statusnet = True
     while True:
-        if debug: print 'ping -c 3 -W 3 ' + internet
-        net = os.system('ping -c 3 -W 3 ' + internet) 
+      for ip in iplist:  
+        if debug: print 'ping -c 3 -W 3 ' + ip
+        net = os.system('ping -c 3 -W 3 ' + ip) 
         result=''
         if net == 0 and statusnet == True: 
             if debug: 
                 print "ok!"
         if net != 0 and statusnet == True: 
-            result += ' Off home! ' 
+            result += '%s Off home! ' % ip
             if debug: print "Offline"
             statusnet = False
         if net == 0 and statusnet == False: 
-            result += ' On home! ' 
+            result += '%s On home! ' % ip
             if debug: print "Online again! "
             statusnet = True 
         if  result != '':
-            if debug: print result
             sendemail(result)
-            if debug: print "mail sent!"
-        time.sleep(period)
-        continue
+            if debug: print "mail sent! %s" % result
+      time.sleep(period)
+      continue
  
 #Start
 ping()
