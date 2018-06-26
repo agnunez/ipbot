@@ -6,15 +6,18 @@ import os
 import sys
 import time
 
-debug    = False # Turn into True to print debug info on terminal
-period   = 600
-iplist = ('192.168.1.10','192.168.1.20') # Mobile phone permanent lan ip list, can be any number of ip's
+debug    = True # Turn into True to print debug info on terminal
+period   = 10 # cycle period in seconds
+iplist = ('192.168.1.53','192.168.1.20') # Mobile phone permanent lan ip list, can be any number of ip's
+statusnet = dict()
+
  
 #Define Username and Password of sender. I used a new gmail account
 username = 'myemail@gmail.com'
 password = 'pass'
  
 def sendemail(result):
+    if debug: return
     notifier = 'Bot'
     sender = 'home@gmail.com' # this is fake email from field
     receivers = ['mynormalemail@gmail.com'] #Use one or many email addresses by comma
@@ -35,23 +38,25 @@ def sendemail(result):
         sys.exit()
  
 def ping():
-    statusnet = True
+    iplen = len(iplist)
+    for ip in iplist: 
+      statusnet[ip] = True
     while True:
       for ip in iplist:  
         if debug: print 'ping -c 3 -W 3 ' + ip
         net = os.system('ping -c 3 -W 3 ' + ip) 
         result=''
-        if net == 0 and statusnet == True: 
+        if net == 0 and statusnet[ip] == True: 
             if debug: 
                 print "ok!"
-        if net != 0 and statusnet == True: 
+        if net != 0 and statusnet[ip] == True: 
             result += '%s Off home! ' % ip
             if debug: print "Offline"
-            statusnet = False
-        if net == 0 and statusnet == False: 
+            statusnet[ip] = False
+        if net == 0 and statusnet[ip] == False: 
             result += '%s On home! ' % ip
             if debug: print "Online again! "
-            statusnet = True 
+            statusnet[ip] = True 
         if  result != '':
             sendemail(result)
             if debug: print "mail sent! %s" % result
