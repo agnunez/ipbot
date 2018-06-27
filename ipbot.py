@@ -6,9 +6,11 @@ import os
 import sys
 import time
 
-debug    = False # Turn into True to print debug info on terminal
-period   = 60 # cycle period in seconds
+debug    = True # Turn into True to print debug info on terminal
+period   = 10  # cycle period in seconds
+# list of ip, and is id names. List should be identical number of elements or only shorter is considered
 iplist = ['192.168.1.53','192.168.1.54'] # Mobile phone permanent lan ip list, can be any number of ip's
+ipname = ['mobile1','mobile2'] # Mobile phone permanent lan ip list, can be any number of ip's
 statusnet = dict()
 
  
@@ -44,7 +46,7 @@ def ping():
     for ip in iplist: 
       statusnet[ip] = True
     while True:
-      for ip in iplist:  
+      for ip,name in zip(iplist,ipname):  
         if debug: print 'ping -c 3 -W 3 ' + ip
         net = os.system('ping -c 3 -W 3 ' + ip) 
         result=''
@@ -52,12 +54,12 @@ def ping():
             if debug: 
                 print "ok!"
         if net != 0 and statusnet[ip] == True: 
-            result += '%s Off home! ' % ip
-            if debug: print "Offline"
+            result += '%s (%s) went Off home! ' % (name,ip)
+            if debug: print '%s (%s) went Off home! ' % (name,ip)
             statusnet[ip] = False
         if net == 0 and statusnet[ip] == False: 
-            result += '%s On home! ' % ip
-            if debug: print "Online again! "
+            result += '%s (%s) arrived at home! ' % (name,ip)
+            if debug: print '%s (%s) arrived at home! ' % (name,ip)
             statusnet[ip] = True 
         if  result != '':
             sendemail(result)
