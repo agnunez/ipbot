@@ -8,14 +8,18 @@ import time
 
 debug    = True # Turn into True to print debug info on terminal
 period   = 10  # cycle period in seconds
+retry    = 3
+deadline = 10
+timeout  = 10
+
 # list of ip, and is id names. List should be identical number of elements or only shorter is considered
-iplist = ['192.168.1.53','192.168.1.54'] # Mobile phone permanent lan ip list, can be any number of ip's
-ipname = ['mobile1','mobile2'] # Mobile phone permanent lan ip list, can be any number of ip's
+iplist = ['192.168.1.12','192.168.1.13'] # Mobile phone permanent lan ip list, can be any number of ip's
+ipname = ['Mobile1','Mobile2'] # Mobile phone permanent lan ip list, can be any number of ip's
 statusnet = dict()
 
  
 #Define Username and Password of sender. I used a new gmail account
-username = 'myemail@gmail.com'
+username = 'senderemail@gmail.com'
 password = 'pass'
  
 def sendemail(result):
@@ -23,8 +27,8 @@ def sendemail(result):
         print "Sendmail simulated in debug mode. Turn debug to False to send real mails"
         return
     notifier = 'Bot'
-    sender = 'home@gmail.com' # this is fake email from field
-    receivers = ['anunez@gmail.com'] #Use one or a list of email addresses separated by comma
+    sender = 'fake@gmail.com' # this is fake email from field
+    receivers = ['receiver@gmail.com'] #Use one or a list of email addresses separated by comma
     date = datetime.datetime.now().strftime( '%m/%d/%Y %H:%M:%S' )
     header = 'To:' + notifier + '\n' + 'From: ' + sender + '\n' + 'Subject: Bot ' + result +'\n'
     message = header + '\n' + 'date:' + '\n' + date + '\n' + 'Change: ' + result
@@ -47,8 +51,9 @@ def ping():
       statusnet[ip] = True
     while True:
       for ip,name in zip(iplist,ipname):  
-        if debug: print 'ping -c 3 -W 3 ' + ip
-        net = os.system('ping -c 3 -W 3 ' + ip) 
+        if debug: print 'ping -c %s -W %s -w %s %s' % (retry,deadline,timeout,ip)
+        net = os.system('ping -c %s -W %s -w %s %s' % (retry,deadline,timeout,ip
+)) 
         result=''
         if net == 0 and statusnet[ip] == True: 
             if debug: 
