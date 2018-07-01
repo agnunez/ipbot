@@ -1,0 +1,22 @@
+Simple Script Bot to detect IP presence at home Wifi and send mail alarms
+
+Code maintained at http://github/agnunez/ipbot
+
+This is a very simple python script that allows to send an email when a mobile
+phone or laptop or any ip device register or disapear on your local Wifi.
+
+It can be use to run other IoT scripts when you or a family member with a 
+mobile phone arrives or leave home. (Open garage, switch lights, etc)
+
+The configuration file contains all ip addresses with a nickname of each device
+as well as all account details from your wifi, and emails to use for sending
+and receiving mails.
+
+Code is selfexplanatory. Some loop delays, number of ping retries and timeouts can also
+be defined on the code itself.
+
+Enjoy!
+
+2018 Agustin Nunez
+Code maintained at http://github/agnunez/ipbot
+
