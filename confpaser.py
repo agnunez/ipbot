@@ -21,7 +21,7 @@ try:
     iplist.extend([ip])
     ipname.extend([name])
 
-    if debug: print "ip: %s, name: %s" % (ip,ipname)
+    if debug: print "ip: %s, name: %s" % (ip,name)
 except:
   print "format error in [iplist] section"
 
